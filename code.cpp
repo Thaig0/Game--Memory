@@ -80,7 +80,7 @@ int main(){
 
     matrizBloqueada[chuteI - 1][chuteJ - 1] = matrizResposta[chuteI - 1][chuteJ - 1];
 
-    cout<<"  | 1 | 2 | 3 | 4 |"<<endl;
+    cout<<" | 1 | 2 | 3 | 4 |"<<endl;
 
     for (int i = 0; i < 4; i ++){
         cout<<(i + 1);
