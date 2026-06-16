@@ -56,7 +56,7 @@ int main(){
     // Loop principal do jogo, o jogador continua jogando até encontrar todos os pares.
         cout << "\033[33mPares encontrados: " << paresAcertados << "/8\033[0m  |  \033[36mTentativas: " << tentativas << "\033[0m" << endl;
 
-        cout<<"  | 1 | 2 | 3 | 4 |"<<endl;
+        cout<<" | 1 | 2 | 3 | 4 |"<<endl;
         for (int i = 0; i < 4; i ++){
             cout<<(i + 1);
             for (int j = 0; j < 4; j++){
@@ -125,7 +125,7 @@ int main(){
         }
     }
 
-    cout << endl << "Parabéns! Você encontrou todos os pares em " << tentativas << " tentativas!" << endl;
+    cout << endl << "\033[32mParabéns! Você encontrou todos os pares em " << tentativas << " tentativas!\033[0m" << endl;
 
     return 0;
 }
