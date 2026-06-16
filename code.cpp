@@ -1,33 +1,29 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <string> // pro to_string - que converte int para string
 using namespace std;
 
 int main(){
     const int n = 4;
     int matrizIdentidade [n][n], matrizResposta [n][n], x = 1, randI, randJ, randIDois, randJDois, temp;
-    string matrizBloqueada [n][n]; 
+    string matrizBloqueada [n][n];
+    int tentativas = 0, paresAcertados = 0;
 
     for(int i = 0; i < 4; i++){
         for(int j = 0; j < 2; j++){
             matrizIdentidade[i][j] = x;
             matrizResposta[i][j] = x;
-            cout<<matrizIdentidade[i][j]<<" ";
         }
         x++;
         for(int j = 2; j < 4; j++){
             matrizIdentidade[i][j] = x;
             matrizResposta[i][j] = x;
-            cout<<matrizIdentidade[i][j]<<" ";
         }
         x++;
-        cout<<endl;
     }
 
-    cout<<"----------------------"<<endl;
-
     //Para randomizar os números
-
     srand(time(0));
 
     int totalElementos = n * n;
@@ -47,77 +43,74 @@ int main(){
 
     for (int i = 0; i < 4; i ++){
         for (int j = 0; j < 4; j++){
-            cout<<matrizResposta[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-
-    for (int i = 0; i < 4; i ++){
-        for (int j = 0; j < 4; j++){
             matrizBloqueada[i][j] = "*";
         }
     }
-    
-
-    cout<<"----------- Teste para o jogo em si (O que vai ser revelado) --------------"<<endl;
-
-    cout<<"  | 1 | 2 | 3 | 4 |"<<endl;
-
-    for (int i = 0; i < 4; i ++){
-        cout<<(i + 1);
-        for (int j = 0; j < 4; j++){
-            cout<<"| "<<matrizBloqueada[i][j]<<" ";
-        }
-        cout<<"|"<<endl;
-    }
 
     int chuteI, chuteJ, chuteIdois, chuteJDois;
-    cout<<endl<<"Digite as cordenadas da primeira carta a virar: "<<endl;
-    cout<<"Linha: ";
-    cin>>chuteI;
-    cout<<"Coluna: ";
-    cin>>chuteJ;
 
-    matrizBloqueada[chuteI - 1][chuteJ - 1] = matrizResposta[chuteI - 1][chuteJ - 1];
+    while (paresAcertados < 8){
+    // Loop principal do jogo, o jogador continua jogando até encontrar todos os pares.
+        cout << "Pares encontrados: " << paresAcertados << "/8  |  Tentativas: " << tentativas << endl;
 
-    cout<<"  | 1 | 2 | 3 | 4 |"<<endl;
-
-    for (int i = 0; i < 4; i ++){
-        cout<<(i + 1);
-        for (int j = 0; j < 4; j++){
-            cout<<"| "<<matrizBloqueada[i][j]<<" ";
+        cout<<"  | 1 | 2 | 3 | 4 |"<<endl;
+        for (int i = 0; i < 4; i ++){
+            cout<<(i + 1);
+            for (int j = 0; j < 4; j++){
+                cout<<"| "<<matrizBloqueada[i][j]<<" ";
+            }
+            cout<<"|"<<endl;
         }
-        cout<<"|"<<endl;
-    }    
 
+        cout<<endl<<"Digite as cordenadas da primeira carta a virar: "<<endl;
+        cout<<"Linha: ";
+        cin>>chuteI;
+        cout<<"Coluna: ";
+        cin>>chuteJ;
 
-    cout<<endl<<"Digite as cordenadas da segunta carta a virar: "<<endl;
-    cout<<"Linha: ";
-    cin>>chuteIdois;
-    cout<<"Coluna: ";
-    cin>>chuteJDois;
+        matrizBloqueada[chuteI - 1][chuteJ - 1] = to_string(matrizResposta[chuteI - 1][chuteJ - 1]);
 
-    matrizBloqueada[chuteIdois - 1][chuteJDois - 1] = matrizResposta[chuteIdois - 1][chuteJDois - 1];
-
-    cout<<"  | 1 | 2 | 3 | 4 |"<<endl;
-
-    for (int i = 0; i < 4; i ++){
-        cout<<(i + 1);
-        for (int j = 0; j < 4; j++){
-            cout<<"| "<<matrizBloqueada[i][j]<<" ";
+        cout<<"  | 1 | 2 | 3 | 4 |"<<endl;
+        for (int i = 0; i < 4; i ++){
+            cout<<(i + 1);
+            for (int j = 0; j < 4; j++){
+                cout<<"| "<<matrizBloqueada[i][j]<<" ";
+            }
+            cout<<"|"<<endl;
         }
-        cout<<"|"<<endl;
+
+        cout<<endl<<"Digite as cordenadas da segunta carta a virar: "<<endl;
+        cout<<"Linha: ";
+        cin>>chuteIdois;
+        cout<<"Coluna: ";
+        cin>>chuteJDois;
+
+        matrizBloqueada[chuteIdois - 1][chuteJDois - 1] = to_string(matrizResposta[chuteIdois - 1][chuteJDois - 1]);
+
+        cout<<"  | 1 | 2 | 3 | 4 |"<<endl;
+        for (int i = 0; i < 4; i ++){
+            cout<<(i + 1);
+            for (int j = 0; j < 4; j++){
+                cout<<"| "<<matrizBloqueada[i][j]<<" ";
+            }
+            cout<<"|"<<endl;
+        }
+
+        tentativas++;
+
+        if (matrizResposta[chuteI - 1][chuteJ - 1] == matrizResposta[chuteIdois - 1][chuteJDois - 1]){
+            matrizBloqueada[chuteI - 1][chuteJ - 1] = " ";
+            matrizBloqueada[chuteIdois - 1][chuteJDois - 1] = " ";
+            paresAcertados++;
+            cout<<"Parabéns! Você acertou!"<<endl;
+        }else{
+            matrizBloqueada[chuteI - 1][chuteJ - 1] = "*";
+            matrizBloqueada[chuteIdois - 1][chuteJDois - 1] = "*";
+            cout<<"Que pena! Parece que você não acertou..."<<endl;
+        }
     }
 
-    if (matrizBloqueada[chuteI][chuteJ] == matrizBloqueada[chuteIdois][chuteJDois]){
-        matrizBloqueada[chuteI][chuteJ] = " ";
-        matrizBloqueada[chuteIdois][chuteJDois] = " ";
-        cout<<"Parabéns! Você acertou!"<<endl;
-    }else{
-        matrizBloqueada[chuteI][chuteJ] = "*";
-        matrizBloqueada[chuteIdois][chuteJDois] = "*";
-        cout<<"Que pena! Parece que você não acertou..."<<endl;
-    }
+    cout << endl << "Parabéns! Você encontrou todos os pares em " << tentativas << " tentativas!" << endl;
 
     return 0;
 }
