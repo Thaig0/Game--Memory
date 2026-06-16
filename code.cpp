@@ -10,6 +10,9 @@ int main(){
     string matrizBloqueada [n][n];
     int tentativas = 0, paresAcertados = 0;
 
+    string cores[9] = {"", "\033[31m", "\033[32m", "\033[33m", "\033[34m", "\033[35m", "\033[36m", "\033[91m", "\033[93m"};
+    string corReset = "\033[0m";
+
     for(int i = 0; i < 4; i++){
         for(int j = 0; j < 2; j++){
             matrizIdentidade[i][j] = x;
@@ -51,13 +54,17 @@ int main(){
 
     while (paresAcertados < 8){
     // Loop principal do jogo, o jogador continua jogando até encontrar todos os pares.
-        cout << "Pares encontrados: " << paresAcertados << "/8  |  Tentativas: " << tentativas << endl;
+        cout << "\033[33mPares encontrados: " << paresAcertados << "/8\033[0m  |  \033[36mTentativas: " << tentativas << "\033[0m" << endl;
 
         cout<<"  | 1 | 2 | 3 | 4 |"<<endl;
         for (int i = 0; i < 4; i ++){
             cout<<(i + 1);
             for (int j = 0; j < 4; j++){
-                cout<<"| "<<matrizBloqueada[i][j]<<" ";
+                if (matrizBloqueada[i][j] == "*"){
+                    cout<<"| "<<matrizBloqueada[i][j]<<" ";
+                } else {
+                    cout<<"| "<<cores[matrizResposta[i][j]]<<matrizBloqueada[i][j]<<corReset<<" ";
+                }
             }
             cout<<"|"<<endl;
         }
@@ -74,7 +81,11 @@ int main(){
         for (int i = 0; i < 4; i ++){
             cout<<(i + 1);
             for (int j = 0; j < 4; j++){
-                cout<<"| "<<matrizBloqueada[i][j]<<" ";
+                if (matrizBloqueada[i][j] == "*"){
+                    cout<<"| "<<matrizBloqueada[i][j]<<" ";
+                } else {
+                    cout<<"| "<<cores[matrizResposta[i][j]]<<matrizBloqueada[i][j]<<corReset<<" ";
+                }
             }
             cout<<"|"<<endl;
         }
@@ -91,7 +102,11 @@ int main(){
         for (int i = 0; i < 4; i ++){
             cout<<(i + 1);
             for (int j = 0; j < 4; j++){
-                cout<<"| "<<matrizBloqueada[i][j]<<" ";
+                if (matrizBloqueada[i][j] == "*"){
+                    cout<<"| "<<matrizBloqueada[i][j]<<" ";
+                } else {
+                    cout<<"| "<<cores[matrizResposta[i][j]]<<matrizBloqueada[i][j]<<corReset<<" ";
+                }
             }
             cout<<"|"<<endl;
         }
@@ -102,11 +117,11 @@ int main(){
             matrizBloqueada[chuteI - 1][chuteJ - 1] = " ";
             matrizBloqueada[chuteIdois - 1][chuteJDois - 1] = " ";
             paresAcertados++;
-            cout<<"Parabéns! Você acertou!"<<endl;
+            cout<<"\033[32mParabéns! Você acertou!\033[0m"<<endl;
         }else{
             matrizBloqueada[chuteI - 1][chuteJ - 1] = "*";
             matrizBloqueada[chuteIdois - 1][chuteJDois - 1] = "*";
-            cout<<"Que pena! Parece que você não acertou..."<<endl;
+            cout<<"\033[31mQue pena! Parece que você não acertou...\033[0m"<<endl;
         }
     }
 
