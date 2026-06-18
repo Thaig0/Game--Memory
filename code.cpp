@@ -5,6 +5,8 @@
 #include <locale.h>
 using namespace std;
 
+//Falta limpar a tela após cada chute para realmente ser um jogo da memória
+
 int main(){
 
     setlocale(LC_ALL,"Portuguese");
@@ -76,7 +78,7 @@ int main(){
 
         matrizBloqueada[chuteI - 1][chuteJ - 1] = to_string(matrizResposta[chuteI - 1][chuteJ - 1]);
 
-        cout<<"  | 1 | 2 | 3 | 4 |"<<endl;
+        cout<<" | 1 | 2 | 3 | 4 |"<<endl;
         for (int i = 0; i < 4; i ++){
             cout<<(i + 1);
             for (int j = 0; j < 4; j++){
