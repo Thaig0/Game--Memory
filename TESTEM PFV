@@ -1,0 +1,143 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <string> // pro to_string - que converte int para string
+#include <locale.h>
+using namespace std;
+
+//Falta limpar a tela após cada chute para realmente ser um jogo da memória
+
+int main(){
+
+    setlocale(LC_ALL,"Portuguese");
+
+    const int n = 4;
+    int matrizResposta [n][n], x = 1, randI, randJ, randIDois, randJDois, temp;
+    string matrizBloqueada [n][n];
+    int tentativas = 0, paresAcertados = 0;
+
+    string cores[9] = {"", "\033[31m", "\033[32m", "\033[33m", "\033[34m", "\033[35m", "\033[36m", "\033[91m", "\033[93m"};
+    string corReset = "\033[0m";
+
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 2; j++){
+            matrizResposta[i][j] = x;
+        }
+        x++;
+        for(int j = 2; j < 4; j++){
+            matrizResposta[i][j] = x;
+        }
+        x++;
+    }
+
+    //Para randomizar os números
+    srand(time(0));
+
+    int totalElementos = n * n;
+
+    for (int k = totalElementos - 1; k > 0; k--){
+        randI = k / n;
+        randJ = k % n;
+
+        int sorteado = rand() % (k + 1);
+        randIDois = sorteado / n;
+        randJDois = sorteado % n;
+
+        temp = matrizResposta[randI][randJ];
+        matrizResposta[randI][randJ] = matrizResposta[randIDois][randJDois];
+        matrizResposta[randIDois][randJDois] = temp;
+    }
+
+    for (int i = 0; i < 4; i ++){
+        for (int j = 0; j < 4; j++){
+            matrizBloqueada[i][j] = "*";
+        }
+    }
+
+    int chuteI, chuteJ, chuteIdois, chuteJDois;
+
+    while (paresAcertados < 8){
+        cout << "\033[2J\033[1;1H";
+        cout << "\033[33mPares encontrados: " << paresAcertados << "/8\033[0m  |  \033[36mTentativas: " << tentativas << "\033[0m" << endl;
+        
+        cout<<" | 1 | 2 | 3 | 4 |"<<endl;
+
+        for (int i = 0; i < 4; i ++){
+            cout<<(i + 1);
+            for (int j = 0; j < 4; j++){
+                cout<<"| "<<matrizBloqueada[i][j]<<" ";
+            }
+            cout<<"|"<<endl;
+        }
+
+        do {
+    cout<<"Linha: ";
+    cin>>chuteI;
+    cout<<"Coluna: ";
+    cin>>chuteJ;
+
+    if (chuteI < 1 || chuteI > 4 || chuteJ < 1 || chuteJ > 4){
+        cout<<"\033[31mCoordenadas inválidas! Use valores entre 1 e 4.\033[0m"<<endl;
+    }
+    
+} while (chuteI < 1 || chuteI > 4 || chuteJ < 1 || chuteJ > 4);
+
+        matrizBloqueada[chuteI - 1][chuteJ - 1] = to_string(matrizResposta[chuteI - 1][chuteJ - 1]);
+
+        cout<<" | 1 | 2 | 3 | 4 |"<<endl;
+        for (int i = 0; i < 4; i ++){
+            cout<<(i + 1);
+            for (int j = 0; j < 4; j++){
+                if (matrizBloqueada[i][j] == "*"){
+                    cout<<"| "<<matrizBloqueada[i][j]<<" ";
+                } else {
+                    cout<<"| "<<cores[matrizResposta[i][j]]<<matrizBloqueada[i][j]<<corReset<<" ";
+                }
+            }
+            cout<<"|"<<endl;
+        }
+
+        do {
+    cout<<"Linha: ";
+    cin>>chuteIdois;
+    cout<<"Coluna: ";
+    cin>>chuteJDois;
+
+    if (chuteI < 1 || chuteI > 4 || chuteJ < 1 || chuteJ > 4){
+        cout<<"\033[31mCoordenadas inválidas! Use valores entre 1 e 4.\033[0m"<<endl;
+    }
+} while (chuteI < 1 || chuteI > 4 || chuteJ < 1 || chuteJ > 4);
+
+        matrizBloqueada[chuteIdois - 1][chuteJDois - 1] = to_string(matrizResposta[chuteIdois - 1][chuteJDois - 1]);
+
+        cout<<"  | 1 | 2 | 3 | 4 |"<<endl;
+        for (int i = 0; i < 4; i ++){
+            cout<<(i + 1);
+            for (int j = 0; j < 4; j++){
+                if (matrizBloqueada[i][j] == "*"){
+                    cout<<"| "<<matrizBloqueada[i][j]<<" ";
+                } else {
+                    cout<<"| "<<cores[matrizResposta[i][j]]<<matrizBloqueada[i][j]<<corReset<<" ";
+                }
+            }
+            cout<<"|"<<endl;
+        }
+
+        tentativas++;
+
+        if (matrizResposta[chuteI - 1][chuteJ - 1] == matrizResposta[chuteIdois - 1][chuteJDois - 1]){
+            matrizBloqueada[chuteI - 1][chuteJ - 1] = " ";
+            matrizBloqueada[chuteIdois - 1][chuteJDois - 1] = " ";
+            paresAcertados++;
+            cout<<"\033[32mParabéns! Você acertou!\033[0m"<<endl;
+        }else{
+            matrizBloqueada[chuteI - 1][chuteJ - 1] = "*";
+            matrizBloqueada[chuteIdois - 1][chuteJDois - 1] = "*";
+            cout<<"\033[31mQue pena! Parece que você não acertou...\033[0m"<<endl;
+        }
+    }
+
+    cout << endl << "\033[32mParabéns! Você encontrou todos os pares em " << tentativas << " tentativas!\033[0m" << endl;
+
+    return 0;
+    }
