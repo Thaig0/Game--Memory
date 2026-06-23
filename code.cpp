@@ -5,7 +5,6 @@
 #include <locale.h>
 using namespace std;
 
-//Falta limpar a tela após cada chute para realmente ser um jogo da memória
 
 int main(){
 
@@ -58,6 +57,9 @@ int main(){
 
     while (paresAcertados < 8){
     // Loop principal do jogo, o jogador continua jogando até encontrar todos os pares.
+    
+        system("clear");
+    
         cout << "\033[33mPares encontrados: " << paresAcertados << "/8\033[0m  |  \033[36mTentativas: " << tentativas << "\033[0m" << endl;
 
         cout<<" | 1 | 2 | 3 | 4 |"<<endl;
@@ -73,8 +75,18 @@ int main(){
         cout<<endl<<"Digite as cordenadas da primeira carta a virar: "<<endl;
         cout<<"Linha: ";
         cin>>chuteI;
+        cout << endl;
+        while (chuteI < 0 or chuteI > 4){
+            cout << "\033[31mO número digitado não é válido... por favor digite outro:  \033[0m\n";
+            cin >> chuteI;
+        }
         cout<<"Coluna: ";
         cin>>chuteJ;
+        cout << endl;
+        while (chuteJ < 0 or chuteJ > 4){
+            cout << " \033[31mO número digitado não é válido... por favor digite outro: \033[0m\n ";
+            cin>>chuteJ;
+        }
 
         matrizBloqueada[chuteI - 1][chuteJ - 1] = to_string(matrizResposta[chuteI - 1][chuteJ - 1]);
 
@@ -94,8 +106,18 @@ int main(){
         cout<<endl<<"Digite as cordenadas da segunta carta a virar: "<<endl;
         cout<<"Linha: ";
         cin>>chuteIdois;
+        cout << endl;
+        while (chuteIdois < 0 or chuteIdois > 4){
+            cout << "\033[31mO número digitado não é válido... por favor digite outro:  \033[0m\n";
+            cin >> chuteIdois;
+        }
         cout<<"Coluna: ";
         cin>>chuteJDois;
+        cout << endl;
+        while (chuteJDois < 0 or chuteJDois > 4){
+            cout << "\033[31mO número digitado não é válido... por favor digite outro:  \033[0m\n";
+            cin >> chuteJDois;
+        }
 
         matrizBloqueada[chuteIdois - 1][chuteJDois - 1] = to_string(matrizResposta[chuteIdois - 1][chuteJDois - 1]);
 
@@ -123,6 +145,11 @@ int main(){
             matrizBloqueada[chuteI - 1][chuteJ - 1] = "*";
             matrizBloqueada[chuteIdois - 1][chuteJDois - 1] = "*";
             cout<<"\033[31mQue pena! Parece que você não acertou...\033[0m"<<endl;
+            
+            // quando ele errar ou acertar o jogo não começa direto para o jogador ver a resposta anterior antes de limpar o cmd
+            cout << "Pressione Enter para continuar...";
+            cin.ignore();
+            cin.get();
         }
     }
 
